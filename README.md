@@ -37,11 +37,17 @@ Iot_LLM_Demo/
    git clone https://github.com/monkmahadeva/Iot_LLM_Demo.git
    ```
 
-2. Open `SmartIOTApp` in Android Studio. Let Gradle sync complete.
+2. Import the Android Module SmartIotApp in android studio
+3. Open terminal and follow the steps
+   * cd demo
+   * mvn clean install
+   * mvn clean compile exec:java
 
-3. Run the app on device/emulator.
+4. Finish Lama Server Setup and mock publishing  
 
-4. App will:
+5. Run the app on device/emulator.
+
+6. App will:
    - Subscribe to `iot/deviceA/temperature`
    - Show real-time chart
    - Tap “Ask AI” to fetch suggestions from LLaMA server
@@ -75,7 +81,7 @@ Iot_LLM_Demo/
 
 3. Ensure endpoint:
    ```
-   POST http://192.168.1.5:8000/v1/chat/completions
+   POST http://<IpOfMachine>:8000/v1/chat/completions
    ```
 
 4. Android app sends:
@@ -119,8 +125,9 @@ Example message:
 
 - Dockerize LLM server
 - BLE integration for real sensors
-- Cloud sync with Firebase or DynamoDB
+- Adapt POC to multiple devices handling connections and disconnections
 - AI recommendation feedback loop
+- Add more prompts for LLama (Open AI)
 
 ---
 
