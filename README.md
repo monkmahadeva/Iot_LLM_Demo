@@ -43,7 +43,7 @@ Iot_LLM_Demo/
    * mvn clean install
    * mvn clean compile exec:java
 
-4. Finish Lama Server Setup and mock publishing  
+4. Finish Lama Server Setup and mosquitto broker installed as a service  
 
 5. Run the app on device/emulator.
 
