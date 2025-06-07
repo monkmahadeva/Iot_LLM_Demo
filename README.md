@@ -1,5 +1,5 @@
 # 🤖 IoT + LLM Demo (SmartIOTApp + Java Publisher)
-
+(Think... Sense... Suggest... An IoT & AI fusion that reads your environment and talks back...)
 A full-stack prototype demonstrating real-time sensor data collection from an Android app, MQTT-based publishing from a Java simulator, and AI-based suggestion using a local LLaMA server.
 
 ---
