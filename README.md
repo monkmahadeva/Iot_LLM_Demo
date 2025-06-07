@@ -54,10 +54,24 @@ Iot_LLM_Demo/
 
 2. Run:
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   python main.py  # or: uvicorn main:app --reload
+   This project uses a local inference server running llama-cpp-python to simulate an OpenAI-style API for AI suggestions.
+
+   📥 Step 1: Download the Model
+   Go to HuggingFace: https://huggingface.co/
+
+   Download the file: mistral-7b-instruct-v0.2.Q4_K_M.gguf
+python3 -m venv venv
+
+   # 2. Activate it
+   source venv/bin/activate        # Mac/Linux
+   # OR
+   .\venv\Scripts\activate         # Windows
+
+   # 3. Install the server
+   pip install llama-cpp-python
+
+   # 4. Run the server with your downloaded model
+   python -m llama_cpp.server --model "<PathToModelFile>\mistral-7b-instruct-v0.2.Q4_K_M.gguf" --host 0.0.0.0 --port 8000
    ```
 
 3. Ensure endpoint:
@@ -84,8 +98,8 @@ Used for simulating MQTT sensor messages:
 ### Run:
 ```bash
 cd demo/
-javac Publisher.java
-java Publisher
+javac MockPublisher.java
+java MockPublisher
 ```
 
 Publishes to topic `iot/deviceA/temperature`
@@ -102,7 +116,7 @@ Example message:
 
 ---
 
-## 🧪 Future Enhancements
+## 🧪 Future Enhancements (Feel free to collaborate)
 
 - Dockerize LLM server
 - BLE integration for real sensors
