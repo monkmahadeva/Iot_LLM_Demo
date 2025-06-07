@@ -60,17 +60,16 @@ Iot_LLM_Demo/
    Go to HuggingFace: https://huggingface.co/
 
    Download the file: mistral-7b-instruct-v0.2.Q4_K_M.gguf
-python3 -m venv venv
+   python3 -m venv venv
 
-   # 2. Activate it
+ 
    source venv/bin/activate        # Mac/Linux
-   # OR
+   OR
    .\venv\Scripts\activate         # Windows
 
-   # 3. Install the server
+
    pip install llama-cpp-python
 
-   # 4. Run the server with your downloaded model
    python -m llama_cpp.server --model "<PathToModelFile>\mistral-7b-instruct-v0.2.Q4_K_M.gguf" --host 0.0.0.0 --port 8000
    ```
 
