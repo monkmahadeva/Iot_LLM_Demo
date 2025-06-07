@@ -100,16 +100,13 @@ Iot_LLM_Demo/
 
 Used for simulating MQTT sensor messages:
 
-### Run:
+### Example payload:
 ```bash
-cd demo/
-javac MockPublisher.java
-java MockPublisher
 ```
 
 Publishes to topic `iot/deviceA/temperature`
 
-Example message:
+:
 ```json
 {
   "deviceId": "deviceA",
