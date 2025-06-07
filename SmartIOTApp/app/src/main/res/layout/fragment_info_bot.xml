@@ -1,0 +1,50 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/chatBotContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/loadingDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="..."
+            android:textSize="40sp"
+            android:fontFamily="@font/playfair_display_regular"
+            android:textColor="#555"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/aiResponseText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:lineSpacingExtra="4dp"
+            android:padding="16dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:fontFamily="@font/playfair_display_regular"
+            android:textSize="16sp"
+            android:textColor="#333"
+            android:visibility="gone"
+            android:layout_marginTop="24dp"/>
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:textColor="@color/white"
+            android:background="@drawable/close_bot_button"
+            android:fontFamily="@font/playfair_display_regular"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>

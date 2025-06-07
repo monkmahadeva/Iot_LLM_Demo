@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chartFragment">
+
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="com.vfx.rightbrainstudios.smartiotapplication.presentation.ui.fragment.ChartFragment"
+        android:label="Chart" >
+        <!-- Action to navigate to InfoBot -->
+        <action
+            android:id="@+id/action_chartFragment_to_infoBotFragment"
+            app:destination="@id/infoBotFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/infoBotFragment"
+        android:name="com.vfx.rightbrainstudios.smartiotapplication.presentation.ui.fragment.InfoBotFragment"
+        android:label="AI Analysis" />
+</navigation>

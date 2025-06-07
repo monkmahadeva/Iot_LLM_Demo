@@ -1,0 +1,52 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temp: --"
+        android:textSize="20sp"
+        android:fontFamily="@font/playfair_display_regular"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnGoToAnalysis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="💡 Ask AI"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#3F51B5"
+        android:fontFamily="@font/playfair_display_regular"
+        android:padding="12dp"
+        android:elevation="6dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        android:stateListAnimator="@null"
+        android:background="@drawable/bg_ask_ai_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChartTemp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/playfair_display_regular"
+        app:layout_constraintTop_toBottomOf="@id/textTemp"
+        app:layout_constraintBottom_toTopOf="@id/btnGoToAnalysis"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
