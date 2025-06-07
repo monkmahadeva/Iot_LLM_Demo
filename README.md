@@ -101,8 +101,6 @@ Iot_LLM_Demo/
 Used for simulating MQTT sensor messages:
 
 ### Example payload:
-```bash
-```
 
 Publishes to topic `iot/deviceA/temperature`
 
