@@ -4,13 +4,13 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.vfx.rightbrainstudios.domain.model.OpenAiData
 import com.vfx.rightbrainstudios.domain.model.SensorData
-import com.vfx.rightbrainstudios.domain.repository.SensorRepository
 import com.vfx.rightbrainstudios.domain.usecase.GetAiSuggestionUseCase
+import com.vfx.rightbrainstudios.domain.usecase.GetRecentChartDataUseCase
+import com.vfx.rightbrainstudios.domain.usecase.SaveSensorRecordUseCase
 import com.vfx.rightbrainstudios.domain.usecase.SubscribeChartDataUseCase
+import com.vfx.rightbrainstudios.smartiotapplication.model.OpenAISuggestion
 import com.vfx.rightbrainstudios.smartiotapplication.presentation.state.State
 import com.vfx.rightbrainstudios.smartiotapplication.util.JsonParser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SensorViewModel @Inject constructor(
     private val subscribeChartDataUseCase: SubscribeChartDataUseCase,
-    private val sensorRepository: SensorRepository,
+    private val saveSensorRecordUseCase: SaveSensorRecordUseCase,
+    private var getRecentChartDataUseCase: GetRecentChartDataUseCase,
     private var getAiSuggestionUseCase: GetAiSuggestionUseCase
 ) : ViewModel() {
 
@@ -51,7 +52,7 @@ class SensorViewModel @Inject constructor(
     fun requestAiSuggestion(deviceId: String) {
         viewModelScope.launch {
             _aiResponse.value = null // Clear old response first
-            val history = sensorRepository.getRecentSensorData(deviceId)
+            val history = getRecentChartDataUseCase.invoke(deviceId= deviceId)
 
             if (history.isEmpty()) {
                 setState(OpenAISuggestion(
@@ -90,18 +91,17 @@ class SensorViewModel @Inject constructor(
             ) { jsonMessage->
                 Log.d("SensorViewModel", "Message received: $jsonMessage")
                 try {
-                    val sensor = parseSensorData(jsonMessage) //  private fun parseSensorData(json: String): SensorEntity -> should be converted to domain model SensorData
-
-                    // Save in DB via Repository
-                    viewModelScope.launch {
-                        sensorRepository.saveSensorData(deviceId, sensor)
-                    }
+                    val sensor = parseSensorData(jsonMessage)
 
                     // Update chart buffer
                     liveBuffer.add(sensor)
                     if (liveBuffer.size > 10) liveBuffer.removeAt(0)
                     _liveChartData.value = liveBuffer.toList()
 
+                    // Save in DB via Repository
+                    viewModelScope.launch {
+                        saveSensorRecordUseCase.invoke(deviceId= deviceId , sensorData = sensor)
+                    }
                 } catch (e: Exception) {
                     Log.e("SensorViewModel", "Invalid JSON: $jsonMessage", e)
                 }
@@ -139,7 +139,4 @@ class SensorViewModel @Inject constructor(
             timestamp = data["timestamp"] as? String ?: ""
         )
     }
-
-
-    data class OpenAISuggestion(val openAIData: OpenAiData, val state: State?)
 }

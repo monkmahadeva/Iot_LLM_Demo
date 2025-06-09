@@ -34,7 +34,8 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     }
 
     val fileFilter = listOf(
-        "**/R.class", "**/R$*.class", "**/BuildConfig.*", "**/Manifest*.*"
+        "**/R.class", "**/R$*.class", "**/BuildConfig.*", "**/Manifest*.*",
+        "**/*Hilt*.*", "**/*Module*.*", "**/*_Impl*.*"
     )
 
     val debugTree = fileTree(layout.buildDirectory.dir("intermediates/javac/debug/classes")) {
@@ -49,7 +50,12 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 
     sourceDirectories.setFrom(files(mainSrc))
     classDirectories.setFrom(files(debugTree, kotlinDebugTree))
-    executionData.setFrom(files(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))) // ✅ actual coverage data
+    executionData.setFrom(
+        fileTree(layout.buildDirectory.get().asFile).include(
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"
+        )
+    )
 }
 
 tasks.named("build") {

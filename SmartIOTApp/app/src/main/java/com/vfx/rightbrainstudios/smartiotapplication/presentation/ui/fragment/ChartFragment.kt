@@ -69,7 +69,6 @@ class ChartFragment: Fragment() {
         chart.data = lineData
         chart.invalidate()
 
-        // ✅ ONLY HERE
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 startCollectingChartData(tempDataSet, humidityDataSet, lineData)

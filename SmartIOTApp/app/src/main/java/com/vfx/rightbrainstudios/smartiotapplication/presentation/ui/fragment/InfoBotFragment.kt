@@ -52,7 +52,7 @@ class InfoBotFragment : DialogFragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.aiResponse.collectLatest { response ->
+            viewModel.aiResponse.collect { response ->
                 if (response != null) {
                     animateJob?.cancel()
                     binding.loadingDots.visibility = View.GONE
