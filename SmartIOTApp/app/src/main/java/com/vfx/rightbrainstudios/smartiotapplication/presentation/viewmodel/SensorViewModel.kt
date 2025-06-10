@@ -131,7 +131,7 @@ class SensorViewModel @Inject constructor(
         }
     }
 
-    private fun parseSensorData(json: String): SensorData { // TODO: Business logic to shift to domain and data#2
+    fun parseSensorData(json: String): SensorData { // TODO: Business logic to shift to domain and data#2
         val data = JsonParser.parseToMap(json)
         return SensorData(
             temperature = (data["temperature"] as? Double) ?: 0.0,
