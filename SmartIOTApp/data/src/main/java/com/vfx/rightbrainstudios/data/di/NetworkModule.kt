@@ -47,9 +47,9 @@ object NetworkModule {
         client: OkHttpClient
     ): OpenAIService {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.5:8000/v1/") // 👈 trailing slash is essential
+            .baseUrl("http://192.168.1.5:8000/v1/")
             .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi)) // ✅ uses @Provided Moshi
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(OpenAIService::class.java)
     }

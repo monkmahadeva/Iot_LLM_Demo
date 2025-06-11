@@ -16,5 +16,4 @@ class GetRecentChartDataUseCaseImpl(
             sensorRepository.getRecentSensorData(deviceId)
         }
     }
-
 }

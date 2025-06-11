@@ -19,4 +19,7 @@ interface SensorDao {
 
     @Query("DELETE FROM sensor_data")
     suspend fun clearAll()
+
+    @Query("SELECT * FROM sensor_data")
+    fun getAll():  Flow<List<SensorEntity>>
 }

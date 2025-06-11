@@ -14,7 +14,7 @@ class OpenAIRepositoryImpl @Inject constructor(
 ) : OpenAiRepository {
 
     override suspend fun requestAiSuggestion(prompt: String): OpenAiData {
-        Log.d("OpenAiRepositoryImpl" , prompt)
+//        Log.d("OpenAiRepositoryImpl" , prompt)
         val response = openAIService.chatCompletion(
             OpenAIRequest(
                 model = "gpt-3.5-turbo",

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.vfx.rightbrainstudios.domain.model.OpenAiData
 import com.vfx.rightbrainstudios.domain.model.SensorData
 import com.vfx.rightbrainstudios.domain.usecase.GetAiSuggestionUseCase
+import com.vfx.rightbrainstudios.domain.usecase.GetHistoryDataUseCase
 import com.vfx.rightbrainstudios.domain.usecase.GetRecentChartDataUseCase
 import com.vfx.rightbrainstudios.domain.usecase.SaveSensorRecordUseCase
 import com.vfx.rightbrainstudios.domain.usecase.SubscribeChartDataUseCase
@@ -24,12 +25,17 @@ class SensorViewModel @Inject constructor(
     private val subscribeChartDataUseCase: SubscribeChartDataUseCase,
     private val saveSensorRecordUseCase: SaveSensorRecordUseCase,
     private var getRecentChartDataUseCase: GetRecentChartDataUseCase,
-    private var getAiSuggestionUseCase: GetAiSuggestionUseCase
+    private var getAiSuggestionUseCase: GetAiSuggestionUseCase,
+    private var getHistoryDataUseCase: GetHistoryDataUseCase
 ) : ViewModel() {
 
     private val _liveChartData = MutableStateFlow<List<SensorData>>(emptyList())
     val liveChartData
         get() = _liveChartData
+
+    private val _historyData = MutableStateFlow<List<SensorData>>(emptyList())
+    val historyData
+        get() = _historyData
 
     private val liveBuffer = mutableListOf<SensorData>()
 
@@ -47,6 +53,12 @@ class SensorViewModel @Inject constructor(
 
     fun setState(state: OpenAISuggestion) {
         _aiResponse.value = state
+    }
+
+   fun getHistoryData(){
+       viewModelScope.launch {
+           _historyData.value = getHistoryDataUseCase.invoke()
+       }
     }
 
     fun requestAiSuggestion(deviceId: String) {
@@ -75,7 +87,7 @@ class SensorViewModel @Inject constructor(
                 }
 
             } catch (e: Exception) {
-                Log.e("SensorVieModel" , e.message.toString())
+//                Log.e("SensorVieModel" , e.message.toString())
                 _aiResponse.value = OpenAISuggestion(
                     openAIData = OpenAiData(e.message.toString()),
                     state = State.ERROR
@@ -91,7 +103,7 @@ class SensorViewModel @Inject constructor(
             ) { jsonMessage->
                 Log.d("SensorViewModel", "Message received: $jsonMessage")
                 try {
-                    val sensor = parseSensorData(jsonMessage)
+                    val sensor = JsonParser.parseSensorData(jsonMessage)
 
                     // Update chart buffer
                     liveBuffer.add(sensor)
@@ -111,8 +123,8 @@ class SensorViewModel @Inject constructor(
     }
 
     @VisibleForTesting
-    fun startTest() {
-        startMqttListener("deviceA")
+    fun startTest(sensorData: SensorData) {
+        _liveChartData.value = _liveChartData.value + sensorData
     }
 
     fun isBalanced(sensorList: List<SensorData>): Boolean { // TODO: Business logic to shift to domain and data#1
@@ -131,12 +143,12 @@ class SensorViewModel @Inject constructor(
         }
     }
 
-    fun parseSensorData(json: String): SensorData { // TODO: Business logic to shift to domain and data#2
-        val data = JsonParser.parseToMap(json)
-        return SensorData(
-            temperature = (data["temperature"] as? Double) ?: 0.0,
-            humidity = ((data["humidity"] as? Double)?.toInt() ?: 0),
-            timestamp = data["timestamp"] as? String ?: ""
-        )
-    }
+//    fun parseSensorData(json: String): SensorData { // TODO: Business logic to shift to domain and data#2
+//        val data = JsonParser.parseToMap(json)
+//        return SensorData(
+//            temperature = (data["temperature"] as? Double) ?: 0.0,
+//            humidity = ((data["humidity"] as? Double)?.toInt() ?: 0),
+//            timestamp = data["timestamp"] as? String ?: ""
+//        )
+//    }
 }

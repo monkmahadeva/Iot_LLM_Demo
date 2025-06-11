@@ -10,9 +10,11 @@ import com.vfx.rightbrainstudios.domain.usecaseimpl.GetRecentChartDataUseCaseImp
 import com.vfx.rightbrainstudios.domain.usecaseimpl.SaveSensorRecordUseCaseImpl
 import com.vfx.rightbrainstudios.domain.usecaseimpl.SubscribeChartDataUseCaseImpl
 import com.vfx.rightbrainstudios.domain.usecase.GetAiSuggestionUseCase
+import com.vfx.rightbrainstudios.domain.usecase.GetHistoryDataUseCase
 import com.vfx.rightbrainstudios.domain.usecase.GetRecentChartDataUseCase
 import com.vfx.rightbrainstudios.domain.usecase.SaveSensorRecordUseCase
 import com.vfx.rightbrainstudios.domain.usecase.SubscribeChartDataUseCase
+import com.vfx.rightbrainstudios.domain.usecaseimpl.GetHistoryDataUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -60,5 +62,14 @@ object UseCaseModule {
 
     ): GetAiSuggestionUseCase {
         return GetAiSuggestionUseCaseImpl(openAiRepository, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetHistoryDataUseCase(
+        sensorRepository: SensorRepository,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): GetHistoryDataUseCase {
+        return GetHistoryDataUseCaseImpl(sensorRepository , dispatcher)
     }
 }

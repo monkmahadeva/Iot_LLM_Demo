@@ -6,6 +6,7 @@ import com.vfx.rightbrainstudios.data.model.SensorDao
 import com.vfx.rightbrainstudios.data.mapper.toDomain
 import com.vfx.rightbrainstudios.data.mapper.toEntity
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class SensorRepositoryImpl @Inject constructor(
@@ -17,6 +18,12 @@ class SensorRepositoryImpl @Inject constructor(
             .first()                             // Collect to List<SensorEntity>
             .map { it.toDomain() }              // Convert each to SensorData
     }
+
+    override suspend fun getAllSensorData(): List<SensorData> {
+        val sensorData = dao.getAll().map { it.map { it1-> it1.toDomain() } }
+        return sensorData.first()
+    }
+
 
     override suspend fun saveSensorData(deviceId: String, sensor: SensorData) {
         dao.insert(sensor.toEntity(deviceId))
